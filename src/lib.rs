@@ -1,6 +1,12 @@
 use rkyv::{Archive, Deserialize, Serialize};
 use ogurpchik::codecs::rkyv_protocol::RkyvCodec;
 
+pub mod vsock {
+    pub const HOST_CID: u32 = 2;
+    pub const AGENT_PORT: u32 = 5000;
+    pub const HOST_PORT: u32 = 5001;
+}
+
 #[derive(Archive, Serialize, Deserialize, Debug)]
 #[rkyv(derive(Debug))]
 pub enum AgentRequest {
