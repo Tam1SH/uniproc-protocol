@@ -706,7 +706,7 @@ dependencies = [
 [[package]]
 name = "ogurpchik"
 version = "0.2.0"
-source = "git+https://github.com/Tam1SH/oguRPChik?branch=master#3f842767a69534a025ad5a35c73043724e3aea91"
+source = "git+https://github.com/Tam1SH/oguRPChik?branch=master#26bc95748e4c92519b58fec9e998e72d500909f2"
 dependencies = [
  "affinity",
  "anyhow",
