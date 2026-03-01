@@ -1,10 +1,9 @@
 use rkyv::{Archive, Deserialize, Serialize};
 use ogurpchik::codecs::rkyv_protocol::RkyvCodec;
 
-pub mod vsock {
-    pub const HOST_CID: u32 = 2;
-    pub const AGENT_PORT: u32 = 5000;
-    pub const HOST_PORT: u32 = 5001;
+pub mod services {
+    pub const GUEST: &'static str = "WSL";
+    pub const HOST: &'static str = "HOST";
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug)]
