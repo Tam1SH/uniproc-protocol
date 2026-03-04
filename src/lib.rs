@@ -113,12 +113,14 @@ pub struct AgentReport {
 #[rkyv(derive(Debug))]
 pub enum HostRequest {
     GetReport,
+    Ping
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug)]
 #[rkyv(derive(Debug))]
 pub enum HostResponse {
     Report(AgentReport),
+    Pong
 }
 
 pub type HostCodec = RkyvCodec<HostRequest, HostResponse>;
