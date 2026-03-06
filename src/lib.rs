@@ -13,7 +13,7 @@ pub struct ProcessStats {
     pub local_pid:  u32,
     pub name:       [u8; 64],
 
-    pub cpu_runtime_ns: u64,
+    pub cpu_percent:    f32,
     pub rss_kb:         u64,
     pub last_active_ns: u64,
 
