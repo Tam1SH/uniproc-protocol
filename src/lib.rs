@@ -103,21 +103,17 @@ pub type LinuxCodec = RkyvCodec<LinuxRequest, LinuxResponse>;
 #[derive(Archive, Serialize, Deserialize, Debug, Clone, Default)]
 #[rkyv(derive(Debug))]
 pub struct WindowsMachineStats {
-    pub total_kb: u64,
-    pub free_kb: u64,
-    pub available_kb: u64,
-    pub used_kb: u64,
-    pub cached_kb: u64,
+    pub total_physical_kb: u64,
+    pub available_physical_kb: u64,
+    pub used_physical_kb: u64,
 
     pub disk_read_bytes: u64,
     pub disk_write_bytes: u64,
     pub disk_read_iops: u64,
     pub disk_write_iops: u64,
 
-    pub net_tcp_rx_bytes: u64,
-    pub net_tcp_tx_bytes: u64,
-    pub net_udp_rx_bytes: u64,
-    pub net_udp_tx_bytes: u64,
+    pub net_rx_bytes: u64,
+    pub net_tx_bytes: u64,
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug, Clone)]
@@ -130,17 +126,17 @@ pub struct WindowsProcessStats {
     pub cmdline: [u8; 256],
 
     pub cpu_percent: f32,
-    pub rss_kb: u64,
+    pub working_set_kb: u64,
+    pub private_bytes_kb: u64,
+    pub peak_working_set_kb: u64,
 
     pub disk_read_bytes: u64,
     pub disk_write_bytes: u64,
     pub disk_read_iops: u64,
     pub disk_write_iops: u64,
 
-    pub net_tcp_rx_bytes: u64,
-    pub net_tcp_tx_bytes: u64,
-    pub net_udp_rx_bytes: u64,
-    pub net_udp_tx_bytes: u64,
+    pub net_rx_bytes: u64,
+    pub net_tx_bytes: u64,
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug, Clone)]
