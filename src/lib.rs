@@ -102,6 +102,41 @@ pub type LinuxCodec = RkyvCodec<LinuxRequest, LinuxResponse>;
 
 #[derive(Archive, Serialize, Deserialize, Debug, Clone, Default)]
 #[rkyv(derive(Debug))]
+pub struct WindowsAgentConfig {
+    pub memory_interval_ms: u64,
+    pub cpu_interval_ms: u64,
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
+pub enum ProcessPriority {
+    Idle,
+    BelowNormal,
+    Normal,
+    AboveNormal,
+    High,
+    Realtime,
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
+pub enum ProcessCommand {
+    Kill { pid: u32 },
+    Suspend { pid: u32 },
+    Resume { pid: u32 },
+    SetPriority { pid: u32, priority: ProcessPriority },
+    SetAffinity { pid: u32, mask: u64 },
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
+pub enum CommandResult {
+    Ok,
+    Err(u32),
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone, Default)]
+#[rkyv(derive(Debug))]
 pub struct WindowsMachineStats {
     pub total_physical_kb: u64,
     pub available_physical_kb: u64,
@@ -151,6 +186,8 @@ pub struct WindowsReport {
 pub enum WindowsRequest {
     GetReport,
     Ping,
+    SetConfig(WindowsAgentConfig),
+    ProcessCommand(ProcessCommand),
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug)]
@@ -158,6 +195,8 @@ pub enum WindowsRequest {
 pub enum WindowsResponse {
     Report(WindowsReport),
     Pong,
+    ConfigApplied,
+    CommandResult(CommandResult),
 }
 
 pub type WindowsCodec = RkyvCodec<WindowsRequest, WindowsResponse>;
