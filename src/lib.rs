@@ -141,6 +141,9 @@ pub struct WindowsMachineStats {
     pub total_physical_kb: u64,
     pub available_physical_kb: u64,
     pub used_physical_kb: u64,
+    pub cpu_percent: f32,
+    pub cpu_max_mhz: u64,
+    pub cpu_current_mhz: u64,
 
     pub disk_read_bytes: u64,
     pub disk_write_bytes: u64,
