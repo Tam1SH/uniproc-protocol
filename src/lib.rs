@@ -161,7 +161,7 @@ pub struct WindowsProcessStats {
     pub parent_pid: u32,
     pub session_id: u32,
     pub name: String,
-    pub cmdline: String,
+    pub cmdline: Vec<String>,
     pub package_full_name: String,
     pub package_relative_app_id: String,
     pub cpu_percent: f32,
