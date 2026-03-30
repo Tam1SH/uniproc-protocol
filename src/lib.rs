@@ -160,8 +160,8 @@ pub struct WindowsProcessStats {
     pub pid: u32,
     pub parent_pid: u32,
     pub session_id: u32,
-    pub name: [u8; 64],
-    pub cmdline: [u8; 256],
+    pub name: String,
+    pub cmdline: String,
 
     pub cpu_percent: f32,
     pub working_set_kb: u64,
