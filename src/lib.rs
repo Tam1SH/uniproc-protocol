@@ -195,7 +195,7 @@ pub struct WindowsReport {
     pub processes: Vec<WindowsProcessStats>,
 }
 
-#[derive(Archive, Serialize, Deserialize, Debug)]
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
 #[rkyv(derive(Debug))]
 pub enum WindowsRequest {
     GetReport,
@@ -205,7 +205,7 @@ pub enum WindowsRequest {
     ServiceCommand(ServiceCommand),
 }
 
-#[derive(Archive, Serialize, Deserialize, Debug)]
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
 #[rkyv(derive(Debug))]
 pub enum WindowsResponse {
     Report(WindowsReport),
