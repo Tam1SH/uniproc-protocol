@@ -130,6 +130,16 @@ pub enum ProcessCommand {
 
 #[derive(Archive, Serialize, Deserialize, Debug, Clone)]
 #[rkyv(derive(Debug))]
+pub enum ServiceCommand {
+    Start { name: String },
+    Stop { name: String },
+    Pause { name: String },
+    Resume { name: String },
+    Restart { name: String },
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
 pub enum CommandResult {
     Ok,
     Err(u32),
@@ -192,6 +202,7 @@ pub enum WindowsRequest {
     Ping,
     SetConfig(WindowsAgentConfig),
     ProcessCommand(ProcessCommand),
+    ServiceCommand(ServiceCommand),
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug)]
