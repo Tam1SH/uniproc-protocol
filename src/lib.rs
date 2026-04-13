@@ -25,10 +25,14 @@ pub struct LinuxMachineStats {
     pub p9_rx_bytes: u64,
     pub p9_tx_bytes: u64,
 
-    pub tcp_tx_bytes: u64,
-    pub tcp_rx_bytes: u64,
-    pub udp_tx_bytes: u64,
-    pub udp_rx_bytes: u64,
+    pub tcp_tx_lo_bytes: u64,
+    pub tcp_rx_lo_bytes: u64,
+    pub tcp_tx_remote_bytes: u64,
+    pub tcp_rx_remote_bytes: u64,
+    pub udp_tx_lo_bytes: u64,
+    pub udp_rx_lo_bytes: u64,
+    pub udp_tx_remote_bytes: u64,
+    pub udp_rx_remote_bytes: u64,
     pub uds_tx_bytes: u64,
     pub uds_rx_bytes: u64,
 
@@ -47,6 +51,8 @@ pub struct LinuxMachineStats {
 pub struct LinuxProcessStats {
     pub global_pid: u32,
     pub local_pid: u32,
+    pub mnt_ns: u64,
+    pub pid_ns: u64,
     pub name: [u8; 64],
 
     pub cpu_percent: f32,
@@ -58,10 +64,14 @@ pub struct LinuxProcessStats {
     pub p9_rx_bytes: u64,
     pub p9_tx_bytes: u64,
 
-    pub tcp_tx_bytes: u64,
-    pub tcp_rx_bytes: u64,
-    pub udp_tx_bytes: u64,
-    pub udp_rx_bytes: u64,
+    pub tcp_tx_lo_bytes: u64,
+    pub tcp_rx_lo_bytes: u64,
+    pub tcp_tx_remote_bytes: u64,
+    pub tcp_rx_remote_bytes: u64,
+    pub udp_tx_lo_bytes: u64,
+    pub udp_rx_lo_bytes: u64,
+    pub udp_tx_remote_bytes: u64,
+    pub udp_rx_remote_bytes: u64,
     pub uds_tx_bytes: u64,
     pub uds_rx_bytes: u64,
 
@@ -77,9 +87,38 @@ pub struct LinuxProcessStats {
 
 #[derive(Archive, Serialize, Deserialize, Debug, Clone)]
 #[rkyv(derive(Debug))]
+pub enum LinuxEnvironmentKind {
+    Unknown,
+    CurrentDistro { name: String },
+    DockerContainer { id: String },
+    UnknownExternalNamespace,
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
+pub struct LinuxEnvironmentInfo {
+    pub mnt_ns: u64,
+    pub pid_ns: u64,
+    pub kind: LinuxEnvironmentKind,
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
+pub struct LinuxDockerContainerInfo {
+    pub id: String,
+    pub mnt_ns: u64,
+    pub pid_ns: u64,
+    pub api_version: String,
+    pub raw_json: String,
+}
+
+#[derive(Archive, Serialize, Deserialize, Debug, Clone)]
+#[rkyv(derive(Debug))]
 pub struct LinuxReport {
     pub machine: LinuxMachineStats,
     pub processes: Vec<LinuxProcessStats>,
+    pub environments: Vec<LinuxEnvironmentInfo>,
+    pub docker_containers: Vec<LinuxDockerContainerInfo>,
 }
 
 #[derive(Archive, Serialize, Deserialize, Debug)]
@@ -97,6 +136,8 @@ pub enum LinuxResponse {
 }
 
 pub type LinuxCodec = RkyvCodec<LinuxRequest, LinuxResponse>;
+pub type MachineStats = LinuxMachineStats;
+pub type ProcessStats = LinuxProcessStats;
 
 // ───────────────────────────── Windows ────────────────────────────────
 
